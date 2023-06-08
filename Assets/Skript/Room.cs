@@ -9,15 +9,6 @@ public class Room : MonoBehaviour
     public GameObject DoorD;
     public GameObject DoorL;
 
-    public Mesh[] BlockMeshes;
 
-    private void Start()
-    {
-        
-    }
-
-    public void RotateRandomly()
-    {
-        
-    }
+   
 }
