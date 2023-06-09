@@ -18,10 +18,11 @@ public class RoomPlacer : MonoBehaviour
         spawnedRooms = new Room[11, 11];
         spawnedRooms[5, 5] = StartingRoom;
 
-        for (int i = 0; i < 12; i++)
+        int k = Random.Range(6, 12);
+        for (int i = 0; i <k; i++)
         {
 
-            PlaceOneRoom();
+            PlaceOneRoom(k-i);
         }
         int maxX = spawnedRooms.GetLength(0) - 1;
         int maxY = spawnedRooms.GetLength(1) - 1;
@@ -40,16 +41,18 @@ public class RoomPlacer : MonoBehaviour
                         spawnedRooms[x, y].DoorR.active = true;
                     if (y < maxY && spawnedRooms[x, y + 1] != null)
                         spawnedRooms[x, y].DoorU.active = true;
+
                 }
             }
         }
+
 
     }
     
 
     
 
-    private void PlaceOneRoom()
+    private void PlaceOneRoom(int i)
     {
         HashSet<Vector2Int> vacantPlaces = new HashSet<Vector2Int>();
         for (int x = 0; x < spawnedRooms.GetLength(0); x++)
@@ -67,8 +70,10 @@ public class RoomPlacer : MonoBehaviour
                 if (y < maxY && spawnedRooms[x, y + 1] == null) vacantPlaces.Add(new Vector2Int(x, y + 1));
             }
         }
-
+      
         Room newRoom = Instantiate(RoomPrefabs[Random.Range(0, RoomPrefabs.Length)]);
+        if (i == 1)
+            newRoom.tag = "Boss";
         Vector2Int position = vacantPlaces.ElementAt(Random.Range(0, vacantPlaces.Count));
         newRoom.transform.position = new Vector3(position.x, position.y, 0) * 50;
         spawnedRooms[position.x, position.y] = newRoom;
