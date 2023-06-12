@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletEnemy : MonoBehaviour
 {
-    public float speed = 8f;
+    float speed = 15f;
     public Rigidbody2D rb;
     public Vector3 nap;
     public int Damage;
@@ -19,6 +19,10 @@ public class BulletEnemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Wall")
+        {
+            Destroy(this.gameObject);
+        }
+        if (col.gameObject.CompareTag("BulletPers"))
         {
             Destroy(this.gameObject);
         }

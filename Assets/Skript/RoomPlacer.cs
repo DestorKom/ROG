@@ -85,8 +85,7 @@ public class RoomPlacer : MonoBehaviour
 
         if (i % 3 == 0)
         {
-            newRoom.tag = "Prize";
-            newRoom.SpawnPrize();
+            newRoom.tag = "Prize";            
         }
         else
             newRoom.tag = "Monster";

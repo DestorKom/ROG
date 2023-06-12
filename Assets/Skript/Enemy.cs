@@ -38,14 +38,13 @@ public class Enemy : MonoBehaviour
     bool start = false;
     private IEnumerator SomeCoroutine()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         start = true;
     }
     private void FixedUpdate()
     {
         if (start)
-        {     
-           
+        {                
             move();
         }
     }
@@ -83,7 +82,7 @@ public class Enemy : MonoBehaviour
             lastTime = Time.realtimeSinceStartup;
         }
     }
-
+    float damagetimer;
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Wall"))
@@ -93,22 +92,18 @@ public class Enemy : MonoBehaviour
 
         if (col.gameObject.CompareTag("BulletPers"))
         {
-            
             BulletPers Bullet = col.GetComponent<BulletPers>();
-            hp -= Bullet.Damage;
             Destroy(col.gameObject);
-           
-            if (hp <= 0)
-            {
-                foreach (GameObject go in GameObject.FindGameObjectsWithTag("Slime"))
+            if (Time.realtimeSinceStartup - damagetimer > 0.1f)
+            {                
+                hp -= Bullet.Damage;                
+                if (hp <= 0)
                 {
-                    go.GetComponent<personage>().counter += 10;
-                    Debug.Log(go.GetComponent<personage>().counter);
+                    GetComponent<Collider2D>().enabled = true;
+                    Destroy(this.gameObject);
+                    room.Die(10);
                 }
-                Destroy(this.gameObject);
-                room.k--;
             }
-           
         }
     }
 }

@@ -40,7 +40,7 @@ public class BossEnemy : MonoBehaviour
     }
     private IEnumerator SomeCoroutine()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         start = true;
     }
     public IEnumerator Attack1() { 
@@ -100,13 +100,9 @@ public class BossEnemy : MonoBehaviour
 
             if (hp <= 0)
             {
-                foreach (GameObject go in GameObject.FindGameObjectsWithTag("Slime"))
-                {
-                    go.GetComponent<personage>().counter += 10;
-                    Debug.Log(go.GetComponent<personage>().counter);
-                }
+
                 Destroy(this.gameObject);
-                room.k--;
+                room.Die(100);
             }
 
         }

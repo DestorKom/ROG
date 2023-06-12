@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class BulletPers : MonoBehaviour
 {
 
-    public float speed = 7f;
+    float speed = 15f;
     public Rigidbody2D rb;
     public Vector3 nap;
     public int Damage;
@@ -22,8 +22,12 @@ public class BulletPers : MonoBehaviour
         rb.velocity = transform.up * speed;
     }
         void OnTriggerEnter2D(Collider2D col)
-    {
+        {
         if (col.gameObject.tag == "Wall")
+        {
+            Destroy(this.gameObject);
+        }
+        if (col.gameObject.CompareTag("BulletEnemy"))
         {
             Destroy(this.gameObject);
         }
