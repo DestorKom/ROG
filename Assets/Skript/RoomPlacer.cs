@@ -10,9 +10,9 @@ public class RoomPlacer : MonoBehaviour
 
     public Room[] RoomPrefabs;
     public Room StartingRoom;
-
-    private Room[,] spawnedRooms;
-
+    
+    public Room[,] spawnedRooms;
+    public personage pers;
     private void Start()
     {
         spawnedRooms = new Room[11, 11];
@@ -21,7 +21,6 @@ public class RoomPlacer : MonoBehaviour
         int k = Random.Range(6, 12);
         for (int i = 0; i <k; i++)
         {
-
             PlaceOneRoom(k-i);
         }
         int maxX = spawnedRooms.GetLength(0) - 1;
@@ -34,18 +33,26 @@ public class RoomPlacer : MonoBehaviour
                 {
 
                     if (x > 0 && spawnedRooms[x - 1, y] != null)
-                        spawnedRooms[x, y].DoorL.active = true;
+                        spawnedRooms[x, y].DoorL.SetActive(true);
+                    else
+                        spawnedRooms[x, y].DoorL = null;
                     if (y > 0 && spawnedRooms[x, y - 1] != null)
-                        spawnedRooms[x, y].DoorD.active = true;
+                        spawnedRooms[x, y].DoorD.SetActive(true);
+                    else
+                        spawnedRooms[x, y].DoorD = null;
                     if (x < maxX && spawnedRooms[x + 1, y] != null)
-                        spawnedRooms[x, y].DoorR.active = true;
+                        spawnedRooms[x, y].DoorR.SetActive(true);
+                    else
+                        spawnedRooms[x, y].DoorR = null;
                     if (y < maxY && spawnedRooms[x, y + 1] != null)
-                        spawnedRooms[x, y].DoorU.active = true;
+                        spawnedRooms[x, y].DoorU.SetActive(true);
+                    else
+                        spawnedRooms[x, y].DoorU = null;
 
                 }
             }
         }
-
+        pers.spawnedRooms = spawnedRooms;
 
     }
     
@@ -72,11 +79,21 @@ public class RoomPlacer : MonoBehaviour
         }
       
         Room newRoom = Instantiate(RoomPrefabs[Random.Range(0, RoomPrefabs.Length)]);
-        if (i == 1)
-            newRoom.tag = "Boss";
         Vector2Int position = vacantPlaces.ElementAt(Random.Range(0, vacantPlaces.Count));
         newRoom.transform.position = new Vector3(position.x, position.y, 0) * 50;
         spawnedRooms[position.x, position.y] = newRoom;
+
+        if (i % 3 == 0)
+        {
+            newRoom.tag = "Prize";
+            newRoom.SpawnPrize();
+        }
+        else
+            newRoom.tag = "Monster";
+        if (i == 1)
+            newRoom.tag = "Boss";
+        
+        
 
     }
 
