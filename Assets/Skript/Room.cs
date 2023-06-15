@@ -11,18 +11,23 @@ public class Room : MonoBehaviour
     public GameObject DoorU;
     public GameObject DoorR;
     public GameObject DoorD;
-    public GameObject DoorL;
+    public GameObject DoorL;    
+
     public GameObject Monster;
     public GameObject Boss;
     public GameObject Buf;
     public GameObject Hp;
+    public GameObject Point;
 
+    public personage personage;
     public int kolEnemy;
 
     private void SpawnBoss()
     {
         kolEnemy = 1;
-        Instantiate(Boss, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity).GetComponent<BossEnemy>().room = this;
+        Boss.SetActive(true);
+        Boss.transform.position = new Vector3(transform.position.x, transform.position.y, -1);
+        Boss.GetComponent<BossEnemy>().room = this;
     }
     private void SpawnEnemy()
     {
@@ -35,11 +40,10 @@ public class Room : MonoBehaviour
 
     private void LockedDoor()
     {
-        if(DoorD!=null)DoorD.SetActive(false);
-        if (DoorU != null) DoorU.SetActive(false);
-        if (DoorL != null) DoorL.SetActive(false);
-        if (DoorR != null) DoorR.SetActive(false);
-        
+        if (DoorD != null)DoorD.GetComponent<Collider2D>().enabled = false;
+        if (DoorU != null) DoorU.GetComponent<Collider2D>().enabled = false;
+        if (DoorL != null) DoorL.GetComponent<Collider2D>().enabled = false;
+        if (DoorR != null) DoorR.GetComponent<Collider2D>().enabled = false;
     }
     private void SpawnPrize()
     {
@@ -47,21 +51,23 @@ public class Room : MonoBehaviour
             Instantiate(Buf, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
         else
             Instantiate(Hp, new Vector3(transform.position.x, transform.position.y, -1), Quaternion.identity);
+        for (int i = 0; i < Random.Range(1, 4); i++)
+        {
+            Instantiate(Point, new Vector3(transform.position.x+Random.Range(-20,20), transform.position.y + Random.Range(-10, 10), -1), Quaternion.identity);
+        }
     }
     public void Die(int point)
     {
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Slime"))
-        {
-            go.GetComponent<personage>().counter +=point;
-            kolEnemy--;
-        }
+        personage.counter += point;
+        personage.DyeEnemy();
+        kolEnemy--;
         if (kolEnemy == 0)
         {
             tag = "Clear";
-            if (DoorD != null) DoorD.SetActive(true);
-            if (DoorU != null) DoorU.SetActive(true);
-            if (DoorL != null) DoorL.SetActive(true);
-            if (DoorR != null) DoorR.SetActive(true);
+            if (DoorD != null) DoorD.GetComponent<Collider2D>().enabled =true;
+            if (DoorU != null) DoorU.GetComponent<Collider2D>().enabled = true;
+            if (DoorL != null) DoorL.GetComponent<Collider2D>().enabled = true;
+            if (DoorR != null) DoorR.GetComponent<Collider2D>().enabled = true;
         }
     }
 
