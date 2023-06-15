@@ -64,7 +64,42 @@ public class personage : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            if (Time.realtimeSinceStartup - lastTime > reload)
+            {
+                Instantiate(Bullet, transform.position, Quaternion.identity).nap = new Vector3(transform.position.x + 1, transform.position.y, 0);
+                lastTime = Time.realtimeSinceStartup;
+            }
 
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (Time.realtimeSinceStartup - lastTime > reload)
+            {
+                Instantiate(Bullet, transform.position, Quaternion.identity).nap = new Vector3(transform.position.x - 1, transform.position.y, 0);
+                lastTime = Time.realtimeSinceStartup;
+            }
+
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            if (Time.realtimeSinceStartup - lastTime > reload)
+            {
+                Instantiate(Bullet, transform.position, Quaternion.identity).nap = new Vector3(transform.position.x, transform.position.y+1, 0);
+                lastTime = Time.realtimeSinceStartup;
+            }
+
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            if (Time.realtimeSinceStartup - lastTime > reload)
+            {
+                Instantiate(Bullet, transform.position, Quaternion.identity).nap = new Vector3(transform.position.x, transform.position.y - 1, 0);
+                lastTime = Time.realtimeSinceStartup;
+            }
+
+        }
         if (Input.GetMouseButton(0))
         {
             if (Time.realtimeSinceStartup - lastTime > reload)
@@ -91,6 +126,7 @@ public class personage : MonoBehaviour
             }
             else
                 hp += 20;
+            image.fillAmount = (float)hp / (float)Maxhp;
             Destroy(col.gameObject);
         }
 
@@ -118,7 +154,7 @@ public class personage : MonoBehaviour
                 hp -= 5;
                 image.fillAmount = (float)hp / (float)Maxhp;
                 damagetimer = Time.realtimeSinceStartup;
-
+                image.fillAmount = (float)hp / (float)Maxhp;
             }
         }
 

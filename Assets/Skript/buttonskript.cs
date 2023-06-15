@@ -34,5 +34,9 @@ public class buttonexit : MonoBehaviour
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(2);
     }
-
+    public void Spravca()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(3);
+    }
 }
